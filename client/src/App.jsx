@@ -4,7 +4,7 @@ function App() {
   const [shifts, setShifts] = useState([])
   const [assignments, setAssignments] = useState([])
 
-  UseEffect(() => {
+  useEffect(() => {
     fetch('http://localhost:3001/shifts')
     .then(res => res.json())
     .then(data => setShifts(data))

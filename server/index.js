@@ -1,7 +1,12 @@
 const express = require('express')
-const app = express()
 const supabase = require('./db')
+const cors = require('cors')
+const app = express()
 app.use(express.json())
+
+app.use(cors({
+    origin: 'http://localhost:5173'
+}))
 
 const assignments = [
     {
@@ -17,7 +22,7 @@ const assignments = [
         due_at: '2026-05-14T23:59:00',
         points_possible: 250,
         score: null
-    },
+    }, 
     {
         title: 'Final Exam Practice',
         course: 'ISE130 Engineering Statistics',
