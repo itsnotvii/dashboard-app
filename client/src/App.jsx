@@ -12,11 +12,11 @@ function App() {
     fetch('http://localhost:3001/assignments')
     .then(res => res.json())
     .then(data => setAssignments(data))
-  }, [])
+  }, []) 
 
   return (
     <div>
-      <h1>My Dashboard</h1>
+      <h1>My Dashboard</h1> 
 
       <h2>Upcoming Assignments</h2>
       {assignments.map(a => (

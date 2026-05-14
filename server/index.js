@@ -6,15 +6,15 @@ app.use(express.json())
 
 app.use(cors({
     origin: 'http://localhost:5173'
-}))
+})) 
 
-const assignments = [
+const assignments = [ 
     {
         title: 'Lab 3 - Linked Lists',
         course: 'CS146 Data Structures',
         due_at: '2026-05-19T23:59:00',
         points_possible: 100,
-        score: null
+        score: null 
     },
     {
         title: 'Cancer Research Essay',
@@ -32,17 +32,23 @@ const assignments = [
     }
 ]
 
+
+// request the assingments data, in json structure
 app.get('/assignments', (req, res) => {
     res.json(assignments)
 })
 
+// Load the specific const vars taken out, hold while loading in, request body
+// as title, location, shiftstart, shiftend, and notes., add that data into
+// supabase variable we created earlier, pull data from shifts, throw error
+// if that data is not found, else, provide the given data 
 app.post('/shifts', async(req, res) => {
     const { title, location, shift_start, shift_end, notes} = req.body
 
     const { data, error } = await supabase
     .from('shifts')
     .insert([{ title, location, shift_start, shift_end, notes }])
-    .select()
+    .select()           
 
     if (error) {
         res.status(500).json({ error: error.message })
