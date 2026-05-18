@@ -35,14 +35,14 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white p-8">
 
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">My Dashboard</h1>
-        <p className="text-gray-400">{new Date().toDateString()}</p>
+        <h1 className="text-4xl font-bold">My Dashboard</h1>
+        <p className="text-white-400">{new Date().toDateString()}</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-6">
 
         <div>
           <h2 className="text-xl font-semibold mb-4 text-blue-400">

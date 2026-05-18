@@ -29,7 +29,15 @@ const assignments = [
         due_at: '2026-05-20T23:59:00',
         points_possible: 50,
         score: null
+    },
+    {
+        title: 'Group Project - Mobile App',
+        course: 'CS150 Software Engineering',
+        due_at: '2026-05-18T23:59:00',
+        points_possible: 200,
+        score: null
     }
+
 ]
 
 
