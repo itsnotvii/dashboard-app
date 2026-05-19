@@ -10,17 +10,17 @@ function App() {
   const [shiftEnd, setShiftEnd] = useState('')
 
   useEffect(() => {
-    fetch('http://localhost:3001/shifts')
+    fetch('${import.meta.env.VITE_API_URL}/shifts')
       .then(res => res.json())
       .then(data => setShifts(data))
 
-    fetch('http://localhost:3001/assignments')
+    fetch('${import.meta.env.VITE_API_URL}/assignments')
       .then(res => res.json())
       .then(data => setAssignments(data))
   }, [])
 
   const addShift = () => {
-    fetch('http://localhost:3001/shifts', {
+    fetch('${import.meta.env.VITE_API_URL}/shifts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
