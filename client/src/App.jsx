@@ -19,9 +19,12 @@ function App() {
       .then(res => res.json())
       .then(data => setAssignments(data))
 
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${import.meta.env.VITE_WEATHER_LAT}&lon=${import.meta.env.VITE_WEATHER_LON}&appid=${import.meta.env.VITE_WEATHER_API_KEY}&units=imperial`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=37.3382&lon=-121.8863&units=imperial&appid=your_actual_api_key`)
       .then(res => res.json())
-      .then(data => setWeather(data))
+      .then(data => {
+      console.log('Weather data:', data)
+      setWeather(data)
+    })
   }, [])
 
   const addShift = () => {
