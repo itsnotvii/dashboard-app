@@ -8,6 +8,7 @@ function App() {
   const [location, setLocation] = useState('')
   const [shiftStart, setShiftStart] = useState('')
   const [shiftEnd, setShiftEnd] = useState('')
+  const [weather, setWeather] = useState(null)
 
   useEffect(() => {
     fetch('${import.meta.env.VITE_API_URL}/shifts')
@@ -17,6 +18,10 @@ function App() {
     fetch('${import.meta.env.VITE_API_URL}/assignments')
       .then(res => res.json())
       .then(data => setAssignments(data))
+
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${import.meta.env.VITE_WEATHER_LAT}&lon=${import.meta.env.VITE_WEATHER_LON}&appid=${import.meta.env.VITE_WEATHER_API_KEY}&units=imperial`)
+      .then(res => res.json())
+      .then(data => setWeather(data))
   }, [])
 
   const addShift = () => {
@@ -39,7 +44,14 @@ function App() {
 
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">My Dashboard</h1>
-        <p className="text-white-400">{new Date().toDateString()}</p>
+        <div className="text-right">
+        <p className="text-gray-400">{new Date().toDateString()}</p>
+        {weather && (
+          <p className="text-gray-400 mt-1">
+            {Math.round(weather.main.temp)}°F - {weather.weather[0].main}
+          </p>
+        )}
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
