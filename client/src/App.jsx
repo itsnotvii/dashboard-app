@@ -9,7 +9,7 @@ function App() {
   const [shiftStart, setShiftStart] = useState('')
   const [shiftEnd, setShiftEnd] = useState('')
   const [weather, setWeather] = useState(null)
-
+  
   useEffect(() => {
     fetch('${import.meta.env.VITE_API_URL}/shifts')
       .then(res => res.json())
@@ -19,7 +19,7 @@ function App() {
       .then(res => res.json())
       .then(data => setAssignments(data))
 
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=37.3382&lon=-121.8863&units=imperial&appid=your_actual_api_key`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=37.3382&lon=-121.8863&units=imperial&appid=eb0729da9531a431060ec9069ee4a006`)
       .then(res => res.json())
       .then(data => {
       console.log('Weather data:', data)
@@ -47,7 +47,7 @@ function App() {
 
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">My Dashboard</h1>
-        <div className="text-right">
+        <div className="text-right"> 
         <p className="text-gray-400">{new Date().toDateString()}</p>
         {weather && (
           <p className="text-gray-400 mt-1">

@@ -36,7 +36,15 @@ const assignments = [
         due_at: '2026-05-18T23:59:00',
         points_possible: 200,
         score: null
+    },
+    {
+        title: 'Shakespeare Analysis Paper',
+        course: 'ENG101 English Literature',
+        due_at: '2026-05-17T23:59:00',
+        points_possible: 150,
+        score: null 
     }
+
 
 ]
 
@@ -57,7 +65,7 @@ app.post('/shifts', async(req, res) => {
     .from('shifts')
     .insert([{ title, location, shift_start, shift_end, notes }])
     .select()           
-
+    
     if (error) {
         res.status(500).json({ error: error.message })
     } else {
