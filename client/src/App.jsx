@@ -74,6 +74,29 @@ function App() {
       })
   }
 
+  const getWeekStats = () => {
+    const today = new Date()
+    const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000)
+
+    const shiftsThisWeek = shifts.filter(s => new Date(s.shifts_start) > weekAgo)
+
+    const hoursWorked = shiftsThisWeek.reduce((total, s) => {
+      const start = new Date(s.shift_start)
+      const end = new Date(s.shift_end)
+      const hours = (end - start) / (1000 * 60 * 60)
+      return total + hours
+    }, 0)
+
+    const nextDeadline = assignments.length > 0
+      ? new Date(assignments[0].due_at).toLocaleDateString()
+      : 'None'
+
+    return { shiftsThisWeek: shiftsThisWeek.length, hoursWorked: Math.round(hoursWorked), nextDeadline }
+
+  }
+
+  const stats = getWeekStats()
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
 
@@ -100,6 +123,25 @@ function App() {
           </button>
         </div>
       )}
+
+      <div className="grid grid-cols-4 gap-4 mb-8">
+        <div className="bg-gradient-to-br from-blue-900 to-blue-950 rounded-lg p-4 border border-blue-700">
+          <p className="text-gray-400 text-sm">Total Assignments</p>
+          <p className="text-3xl font-bold text-blue-300">{assignments.length}</p>
+        </div>
+        <div className="bg-gradient-to-br from-green-900 to-green-950 rounded-lg p-4 border border-green-700">
+          <p className="text-gray-400 text-sm">Shifts This Week</p>
+          <p className="text-3xl font-bold text-purple-300">{stats.shiftsThisWeek}</p>
+        </div>
+        <div className="bg-gradient-to-br from-purple-900 to-purple-950 rounded-lg p-4 border border-purple-700">
+            <p className="text-gray-400 text-sm">Hours Worked</p>
+            <p className="text-3xl font-bold text-purple-300">{stats.hoursWorked}</p>
+        </div>
+        <div className="bg-gradient-to-br from-orange-900 to-orange-950 rounded-lg p-4 border border-orange-700">
+          <p className="text-gray-400 text-sm">Next Deadline</p>
+          <p className="text-lg font-bold text-orange-300">{stats.nextDeadline}</p>
+        </div>
+      </div>
 
       <div className="grid grid-cols-2 gap-6">
 
