@@ -9,13 +9,14 @@ function App() {
   const [shiftStart, setShiftStart] = useState('')
   const [shiftEnd, setShiftEnd] = useState('')
   const [weather, setWeather] = useState(null)
+  const [deletedShift, setDeletedShift] = useState(null)
   
   useEffect(() => {
-    fetch('${import.meta.env.VITE_API_URL}/shifts')
+    fetch(`${import.meta.env.VITE_API_URL}/shifts`)
       .then(res => res.json())
       .then(data => setShifts(data))
 
-    fetch('${import.meta.env.VITE_API_URL}/assignments')
+    fetch(`${import.meta.env.VITE_API_URL}/assignments`)
       .then(res => res.json())
       .then(data => setAssignments(data))
 
@@ -28,7 +29,7 @@ function App() {
   }, [])
 
   const addShift = () => {
-    fetch('${import.meta.env.VITE_API_URL}/shifts', {
+    fetch(`${import.meta.env.VITE_API_URL}/shifts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -40,6 +41,37 @@ function App() {
     })
       .then(res => res.json())
       .then(data => setShifts([...shifts, data[0]]))
+  }
+
+  const deleteShift = (id) => {
+    const shiftToDelete = shifts.find(s => s.id === id)
+
+    fetch(`${import.meta.env.VITE_API_URL}/shifts/${id}`, {
+      method: 'DELETE'
+    })
+      .then(() => {
+        setShifts(shifts.filter(s => s.id !== id))
+        setDeletedShift(shiftToDelete)
+        setTimeout(() => setDeletedShift(null), 5000)
+      })
+  }
+
+  const undoDelete = () => {
+    const { id, created_at, ...shiftData } = deletedShift
+
+    fetch(`${import.meta.env.VITE_API_URL}/shifts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify(deletedShift)
+    })
+      .then(res => res.json())
+      .then(data => {
+        const newShifts = [...shifts, data[0]]
+        newShifts.sort((a, b) => new Date(a.shift_start) - new Date(b.shift.start))
+        setShifts(newShifts)
+        setDeletedShift(null)
+        
+      })
   }
 
   return (
@@ -57,6 +89,18 @@ function App() {
         </div>
       </div>
 
+      {deletedShift && (
+        <div className="bg-gray-800 border border-gray-700 rounded-lg p=4 mb-6 flex justify-between items-center">
+          <span className="text-gray-300">Shift "{deletedShift.title}" was deleted</span>
+          <button
+            onClick={undoDelete}
+            className="text-blue-400 hover:text-blue-300 underline font-semibold"
+          >
+            Undo
+          </button>
+        </div>
+      )}
+
       <div className="grid grid-cols-2 gap-6">
 
         <div>
@@ -65,7 +109,7 @@ function App() {
           </h2>
           <div className="flex flex-col gap-3">
             {assignments.map(a => (
-              <div key={a.id} className="bg-gray-800 rounded-xl p-4">
+              <div key={a.id} className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-4 border border-gray-700 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/20 transition-all">
                 <h3 className="font-semibold text-white">{a.title}</h3>
                 <p className="text-gray-400 text-sm">{a.course}</p>
                 <p className="text-red-500 text-sm mt-1">
@@ -82,12 +126,20 @@ function App() {
           </h2>
           <div className="flex flex-col gap-3">
             {shifts.map(s => (
-              <div key={s.id} className="bg-gray-800 rounded-xl p-4">
-                <h3 className="font-semibold text-white">{s.title}</h3>
-                <p className="text-gray-400 text-sm">{s.location}</p>
-                <p className="text-green-300 text-sm mt-1">
-                  {new Date(s.shift_start).toLocaleDateString()}
-                </p>
+              <div key={s.id} className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-4 border border-gray-700 hover:border-green-500 hover:shadow-lg hover:shadow-green-500/20 transition-all flex justify-between items-start">
+                <div>
+                  <h3 className="font-semibold text-white">{s.title}</h3>
+                  <p className="text-gray-400 text-sm">{s.location}</p>
+                  <p className="text-green-300 text-sm mt-2">
+                    {new Date(s.shift_start).toLocaleDateString()}
+                  </p>
+                </div>
+                <button
+                  onClick={() => deleteShift(s.id)}
+                  className="text-red-400 hover:text-red-300 text-sm font-semibold"
+                >
+                  Delete
+                </button>
               </div>
             ))}
           </div>
