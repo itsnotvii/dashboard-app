@@ -67,7 +67,7 @@ function App() {
       .then(res => res.json())
       .then(data => {
         const newShifts = [...shifts, data[0]]
-        newShifts.sort((a, b) => new Date(a.shift_start) - new Date(b.shift.start))
+        newShifts.sort((a, b) => new Date(a.shift_start) - new Date(b.shift_start))
         setShifts(newShifts)
         setDeletedShift(null)
         
