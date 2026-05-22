@@ -10,6 +10,7 @@ function App() {
   const [shiftEnd, setShiftEnd] = useState('')
   const [weather, setWeather] = useState(null)
   const [deletedShift, setDeletedShift] = useState(null)
+  const [completedAssignments, setCompletedAssignments] = useState([])
   
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/shifts`)
@@ -97,6 +98,17 @@ function App() {
 
   const stats = getWeekStats()
 
+  const toggleCompleted = (id) => {
+    if (completedAssignments.includes(id)) {
+      setCompletedAssignments(completedAssignments.filter(cid => cid !== id))
+    } else {
+      setCompletedAssignments([...completedAssignments, id])
+    }
+  }
+
+  console.log('completedAssignments:', completedAssignments)
+  console.log('assignments:', assignments)
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
 
@@ -149,12 +161,25 @@ function App() {
           <h2 className="text-xl font-semibold mb-4 text-blue-400">
             Upcoming Assignments
           </h2>
+
           <div className="flex flex-col gap-3">
-            {assignments.map(a => (
-              <div key={a.id} className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-4 border border-gray-700 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/20 transition-all">
-                <h3 className="font-semibold text-white">{a.title}</h3>
+            {assignments
+              .sort((a, b) => new Date(a.due_at) - new Date(b.due_at))
+              .map(a => (
+              <div 
+                key={a.id} 
+                onClick={() => toggleCompleted(a.id)}
+                className={`bg-gradient-to-br rounded-lg p-4 border transition-all cursor-pointer ${
+                  completedAssignments.includes(a.id)
+                    ? 'from-gray-700 to-gray-800 border-gray-600 opacity-50'
+                    : 'from-gray-800 to-gray-900 border-gray-700 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/20'
+                }`}
+              >
+                <h3 className={`font-semibold ${completedAssignments.includes(a.id) ? 'line-through text-gray-500' : 'text-white'}`}>
+                  {a.title}
+                </h3>
                 <p className="text-gray-400 text-sm">{a.course}</p>
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-blue-300 text-sm mt-2">
                   Due: {new Date(a.due_at).toLocaleDateString()}
                 </p>
               </div>

@@ -10,6 +10,7 @@ app.use(cors({
 
 const assignments = [ 
     {
+        id: 1,
         title: 'Lab 3 - Linked Lists',
         course: 'CS146 Data Structures',
         due_at: '2026-05-19T23:59:00',
@@ -17,6 +18,7 @@ const assignments = [
         score: null 
     },
     {
+        id: 2,
         title: 'Cancer Research Essay',
         course: 'BIO10 Intro To Biology',
         due_at: '2026-05-14T23:59:00',
@@ -24,6 +26,7 @@ const assignments = [
         score: null
     }, 
     {
+        id: 3, 
         title: 'Final Exam Practice',
         course: 'ISE130 Engineering Statistics',
         due_at: '2026-05-20T23:59:00',
@@ -31,6 +34,7 @@ const assignments = [
         score: null
     },
     {
+        id: 4,
         title: 'Group Project - Mobile App',
         course: 'CS150 Software Engineering',
         due_at: '2026-05-18T23:59:00',
@@ -38,6 +42,7 @@ const assignments = [
         score: null
     },
     {
+        id: 5,
         title: 'Shakespeare Analysis Paper',
         course: 'ENG101 English Literature',
         due_at: '2026-05-17T23:59:00',
