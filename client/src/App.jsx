@@ -55,6 +55,7 @@ function App() {
         setDeletedShift(shiftToDelete)
         setTimeout(() => setDeletedShift(null), 5000)
       })
+      .catch(err => console.error('Delete failed:', err))
   }
 
   const undoDelete = () => {
@@ -112,17 +113,13 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
 
-      <div className="glass rounded-xl p-6 mb-8">
-        <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-bold">My Dashboard</h1>
-          <div className="text-right">
-            <p className="text-gray-300 text-lg">{new Date().toDateString()}</p>
-            {weather && (
-              <p className="text-gray-400 mt-2">
-                {Math.round(weather.main.temp)}°F - {weather.weather[0].main}
-              </p>
-            )}
-          </div>
+      <div className="glass rounded-xl p-8 mb-8 text-center">
+        <h1 className="text-4xl font-bold mb-4">Control Center</h1>
+        <div className="flex justify-center gap-6 text-sm text-gray-400">
+          <span>{new Date().toDateString()}</span>
+          {weather && (
+            <span>{Math.round(weather.main.temp)}°F • {weather.weather[0].main}</span>
+          )}
         </div>
       </div>
 
@@ -140,20 +137,20 @@ function App() {
 
       <div className="grid grid-cols-4 gap-4 mb-8">
         <div className="glass rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Total Assignments</p>
-          <p className="text-3xl font-bold text-blue-300">{assignments.length}</p>
+          <p className="text-gray-500 text-sm">Total Assignments</p>
+          <p className="text-3xl font-bold text-white mt-2">{assignments.length}</p>
         </div>
         <div className="glass rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Shifts This Week</p>
-          <p className="text-3xl font-bold text-green-300">{stats.shiftsThisWeek}</p>
+          <p className="text-gray-500 text-sm">Shifts This Week</p>
+          <p className="text-3xl font-bold text-white mt-2">{stats.shiftsThisWeek}</p>
         </div>
         <div className="glass rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Hours Worked</p>
-          <p className="text-3xl font-bold text-purple-300">{stats.hoursWorked}h</p>
+          <p className="text-gray-500 text-sm">Hours Worked</p>
+          <p className="text-3xl font-bold text-white mt-2">{stats.hoursWorked}h</p>
         </div>
         <div className="glass rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Next Deadline</p>
-          <p className="text-lg font-bold text-orange-300">{stats.nextDeadline}</p>
+          <p className="text-gray-500 text-sm">Next Deadline</p>
+          <p className="text-3xl font-bold text-white mt-2">{stats.nextDeadline}</p>
         </div>
       </div>
 
