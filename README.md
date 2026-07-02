@@ -1,6 +1,6 @@
 # Dashboard App
 
-A full-stack academic and work management dashboard built with React, Node.js, and PostgreSQL.
+Full-stack academic and work management dashboard built with React, Node.js, and PostgreSQL.
 
 ## Features
 
